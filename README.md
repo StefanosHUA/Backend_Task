@@ -41,4 +41,8 @@ DB_USERNAME=Your_DB_Username
 &nbsp;
 
 DB_PASSWORD=Your_DB_Password
+&nbsp;
+
+Then, we need to cd to our project's directory, run the 'php artisan migrate' command in order for our DB Schema to be created
+
 
