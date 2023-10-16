@@ -1,9 +1,11 @@
 # Backend_Task
 Directory of Companies API in Laravel - PostgreSQL
 
-&nbsp;&nbsp;
 
+
+&nbsp;
 Firstly, to run and test the project you have to have the following installed: 
+
 
 &nbsp;
 -PHP (Using version 8.2.11)
