@@ -20,6 +20,9 @@ Firstly, to run and test the project you have to have the following installed:
 &nbsp;
 -Postman (To test the API)
 
+
+
+
 &nbsp;
 Firstly, you need to connect the app to the Postgresql database. In order to achieve that, Create a new Database using PGAdmin, go to the .env file of the project and change the following to match the credentials 
 of the database you created:
@@ -48,6 +51,9 @@ Afterwards, you need to populate the Database we just created via an HTML File. 
 Additionally, a custom command has been created so that it can be run in the terminal when needed. 
 &nbsp;
 
+
+
+
 #More specifically and how it works
 &nbsp;
 
@@ -56,16 +62,19 @@ Then, in the the ParseHtmlData module, using the file_get_contents function, the
 As our goal is to match the correct data between each data category of each company, we then use crawler to split the data into 3 categories essentially, in order to save it effectively:
 
 &nbsp;
-1)A Company Entity which is divided by a 'tr' tag in the html file.
+1) A Company Entity which is divided by a 'tr' tag in the html file.
 
 &nbsp;
-2)A Company Entity's data which is divided by a 'td' tag in the html file.
+2) A Company Entity's data which is divided by a 'td' tag in the html file.
 
 &nbsp;
-3)Logo, a part of a company entity's data which is divided by an 'img' tag inside a 'td' tag.
+3) Logo, a part of a company entity's data which is divided by an 'img' tag inside a 'td' tag.
 
 &nbsp;
 After all the above, a company instance is created and filled with data, so that each company attribute (name, company_id etc) is filled with its corresponding data from the html file, and then saved in the database.
+
+
+
 
 &nbsp;
 #So far so good but we still need to expose the saved data to an API. To achieve that goal, I have created / modified our project's /routes/api and Controllers file:
@@ -84,15 +93,30 @@ Then, I have added the neccessary GET/POST/PUT/DELETE routes in the /routes/api 
 2) GET Companies By ID => Maps the application to the GetCompanyById function in the CompanyController which takes as input a parameter (company_id) inserted in the url and returns from the database the company that matches that parameter.
 
 &nbsp;
-3)POST Companies => Maps the application to the CreateEntry function in the CompanyController which 
+3) POST Companies => Maps the application to the CreateEntry function in the CompanyController which requests the data required to make a new company instance, validates it (In order for each attribute to have the correct data type) and creates a new Company in the database.
 
 &nbsp;
-4)
+4) PUT Company => Maps the application to the updateCompanyInfo function in the CompanyController, which takes as input a parameter (company_id) and the updated fields in JSON format (The parameter is taken from the url parameters and the fields with their values from the request's body, in json format). Then the Company matching that company_id has its corresponding (to those sumbitted in the body) fields updated.
 
 &nbsp;
-5)
+5) Delete Company => Maps the application to the destroy function in the CompanyController which takes as input the company's id (company_id field) and deletes the company whose id corresponds with the one submitted. 
 
 
+
+
+&nbsp;
+Alright, now that you know how the application works, here's all you need to do to run and test it: (Taking for granted that you have installed everything mentioned in the begging of this README file)
+
+
+&nbsp;
+1) Cd to the project's directory and run the following command to generate an application key: 'php artisan key:generate'
+
+&nbsp;
+2) Run the following command in your terminal to start the server: 'php artisan serve'
+
+
+&nbsp;
+#Your server now should be up and running! Now you can use Postman to test the project, as you have already parsed the company data from the Html file.
 
 
 
