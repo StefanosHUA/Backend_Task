@@ -1,66 +1,121 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Backend_Task
+## Directory of Companies API in Laravel - PostgreSQL
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+&nbsp;
+### Firstly, to run and test the project you have to have the following installed: 
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+&nbsp;
+-PHP (Using version 8.2.11)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+&nbsp;
+-Composer (Using version 2.6.5)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+&nbsp;
+-Laravel (Using version 10.28.0)
 
-## Learning Laravel
+&nbsp;
+-PostgreSQL & PG Admin 
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+&nbsp;
+-Postman (To test the API)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
+&nbsp;
+### Addtionally, you need to connect the app to the Postgresql database. In order to achieve that, Create a new Database using PGAdmin, go to the .env file of the project and change the following to match the credentials  of the database you created:
+&nbsp;
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+DB_CONNECTION=pgsql
+&nbsp;
 
-### Premium Partners
+DB_HOST=Your_Host_Name
+&nbsp;
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+DB_PORT=Your_Port_Num
+&nbsp;
 
-## Contributing
+DB_DATABASE=Your_DB_Name
+&nbsp;
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+DB_USERNAME=Your_DB_Username
+&nbsp;
 
-## Code of Conduct
+DB_PASSWORD=Your_DB_Password
+&nbsp;
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Then, you need to cd to our project's directory, run the 'php artisan migrate' command in order for the DB Schema to be created. Now the DB Schema has been created successfully! Afterwards, you need to populate the Database we just created via an HTML File. To achieve that, the ParseHtmlData Module has been created in the /app/console/commands directory of our project that implements the HTML parsing logic. Additionally, a custom command has been created so that it can be run in the terminal to parse an HTML file when needed. 
+&nbsp;
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## More specifically and how it works
+&nbsp;
+#### Specifically, we have created the command "php artisan parse:htmlfile file:///C:/DirectoryToYourHTMLFile". When executed, the above command is recognized by the application through the ParseHtmlData module, as it has been declared using the $signature property. Then, in the the ParseHtmlData module, using the file_get_contents function, the HTML file content is extracted and saved into a variable. After that, the variable (which contains the HTML file content) is parsed to a newly created crawler instance which will allow us to manipulate the file's data. As our goal is to match the correct data between each data category of each company, we then use crawler to split the data into 3 categories essentially, in order to save it effectively:
+
+&nbsp;1) A Company Entity which is divided by a 'tr' tag in the html file.
+
+&nbsp;
+2) A Company Entity's data which is divided by a 'td' tag in the html file.
+
+&nbsp;
+3) Logo, a part of a company entity's data which is divided by an 'img' tag inside a 'td' tag.
+
+&nbsp;
+### -Result: After all the above, a company instance is created and filled with data, so that each company attribute (name, company_id etc) is filled with its corresponding data from the html file, and then saved in the database.
+
+
+
+
+&nbsp;
+## So far so good but we still need to expose the saved data to an API. To achieve that goal, I have created / modified our project's /routes/api and Controllers file:
+
+&nbsp;
+Firstly, I have created a custom controllers file. There, a custom Controller (function) has been created for each Endpoint to suit its functionality. 
+Then, I have added the neccessary GET/POST/PUT/DELETE routes in the /routes/api file mentioned before. 
+
+&nbsp;
+## Each Controller's - Endpoint's functionality: 
+
+
+&nbsp;1) GET Companies (/companies url) => Maps the application to the GetFilteredData function in the  CompanyController which queries and returns all companies stored in the database. Filter criteria can be added to the query in order for companies to be returned based on a certain attribute (City, Country, Industry or Funding State)
+&nbsp;
+
+
+&nbsp;
+2) GET Companies By ID (/companies/{company_id} url) => Maps the application to the GetCompanyById function in the CompanyController which takes as input a parameter (company_id) inserted in the url and returns the company that matches that parameter from the database.
+&nbsp;
+
+
+&nbsp;
+3) POST Companies (/companies url) => Maps the application to the CreateEntry function in the CompanyController which requests the data required to make a new company instance, validates it (In order for each attribute to have the correct data type) and creates a new Company in the database.
+&nbsp;
+
+
+&nbsp;
+4) PUT Company (/companies/{company_id} url) => Maps the application to the updateCompanyInfo function in the CompanyController, which takes as input a parameter (company_id) and the updated fields in JSON format (The parameter is taken from the url parameters and the fields with their values from the request's body, in json format). Then the Company matching that company_id has its corresponding (to those sumbitted in the body) fields updated.
+&nbsp;
+
+
+&nbsp;
+5) Delete Company (/companies/{company_id} url) => Maps the application to the destroy function in the CompanyController which takes as input the company's id (company_id field) and deletes the company whose id corresponds with the one submitted. 
+&nbsp;
+
+
+
+&nbsp;
+### Alright, now that you know how the application works, here's all you need to do to run and test it: (Taking for granted that you have installed everything mentioned in the begging of this README file)
+
+
+&nbsp;1) Cd to the project's directory and run the following command to generate an application key: 'php artisan key:generate'
+
+&nbsp;
+2) Run the following command in your terminal to start the server: 'php artisan serve'
+
+
+&nbsp;
+### Your server now should be up and running! Now you can use Postman to test the project, as you have already parsed the company data from the Html file.
+
+
